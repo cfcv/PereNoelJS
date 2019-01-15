@@ -48,43 +48,49 @@ document.onkeydown=function(e){
 
 
 var sapins=[];
-var seconds = new Date().getTime();
-
-var counter=function incrementSeconds(seconds) {
-	seconds += 1;
-	console.log(seconds);
-	if(seconds%10==0){
-		console.log("entrou");
+var seconds = 0;
+var counter = setInterval(function(){
+	console.log(++seconds);
+  	if(seconds%10){
 		//generate sapin
-		var x=Math.floor((Math.random()*780)+1);
-		var y=Math.floor((Math.random()*580)+1);
+	  }
+},1000);
+
+// var counter=function incrementSeconds(seconds) {
+// 	seconds += 1;
+// 	console.log(seconds);
+// 	if(seconds%10==0){
+// 		console.log("entrou");
+// 		generate sapin
+// 		var x=Math.floor((Math.random()*780)+1);
+// 		var y=Math.floor((Math.random()*580)+1);
 		
-		var n= Math.floor(Math.random());
-		var seconds =(n>0.7) ? 10 : 20;		
+// 		var n= Math.floor(Math.random());
+// 		var seconds =(n>0.7) ? 10 : 20;		
 		
-		s = new Sapin(seconds,x, y);
-		sapins.push(s);
+// 		s = new Sapin(seconds,x, y);
+// 		sapins.push(s);
 		
 		
-		//remove sapin non decore
+// 		remove sapin non decore
 		
-		drawSapin(s);
-	}
-	else if(seconds%20 == 0){
-		//remove decoree
-	}	
-}
-setInterval(counter, 1000);
+// 		drawSapin(s);
+// 	}
+// 	else if(seconds%20 == 0){
+// 		remove decoree
+// 	}	
+// }
+// setInterval(counter, 1000);
 
 //var sapins=[new Sapin(10, 0, 0)];
-sapain_image = new Image();
-sapain_image.src = 'ressources/tree.png';
-function drawSapin(s){
+//sapain_image = new Image();
+//sapain_image.src = 'ressources/tree.png';
+//function drawSapin(s){
 		//console.log(sapin)
 		//sapin.draw(context);
-		pos = s.getPos();
-		context.drawImage(sapain_image, 290, 200, 60, 90, pos[0], pos[1], 25, 25);
-}
+//		pos = s.getPos();
+//		context.drawImage(sapain_image, 290, 200, 60, 90, pos[0], pos[1], 25, 25);
+//}
 //drawSapins();
 
 //sapin= new Sapin(10, 10,10);
