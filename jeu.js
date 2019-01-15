@@ -46,13 +46,30 @@ document.onkeydown=function(e){
 	
 }
 
+sapain_image = new Image();
+sapain_image.src = 'ressources/tree.png';
+var drawSapin = function (s){
+	console.log(s)
+	//sapin.draw(context);
+	pos = s.getPos();
+	context.drawImage(sapain_image, 290, 200, 60, 90, pos[0], pos[1], 25, 25);
+}
 
 var sapins=[];
 var seconds = 0;
 var counter = setInterval(function(){
 	console.log(++seconds);
-  	if(seconds%10){
+  	if(seconds%10 == 0){
 		//generate sapin
+		console.log("entrou");
+ 		var x=Math.floor((Math.random()*780)+1);
+ 		var y=Math.floor((Math.random()*580)+1);
+		
+ 		var n= Math.floor(Math.random());
+ 		var lifetime =(n<0.7) ? 10 : 20;		
+		
+ 		s = new Sapin(lifetime,x, y);
+		drawSapin(s);
 	  }
 },1000);
 
@@ -83,14 +100,6 @@ var counter = setInterval(function(){
 // setInterval(counter, 1000);
 
 //var sapins=[new Sapin(10, 0, 0)];
-//sapain_image = new Image();
-//sapain_image.src = 'ressources/tree.png';
-//function drawSapin(s){
-		//console.log(sapin)
-		//sapin.draw(context);
-//		pos = s.getPos();
-//		context.drawImage(sapain_image, 290, 200, 60, 90, pos[0], pos[1], 25, 25);
-//}
 //drawSapins();
 
 //sapin= new Sapin(10, 10,10);
