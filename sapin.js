@@ -3,9 +3,9 @@ function Sapin(seconds, x, y){
 	this.x=x;
 	this.y=y;	
 	this.empty=true;
+	this.image=new Image();
 }
-var canvas = document.getElementById("MainCanvas");
-context = canvas.getContext('2d');
+
 Sapin.prototype.draw= function(){
 	s = new Image();
 	s.src = 'ressources/tree.png';
