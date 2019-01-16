@@ -1,8 +1,8 @@
 //Getting the canvas and its context
-var canvas = document.getElementById("MainCanvas");
+let canvas = document.getElementById("MainCanvas");
 context = canvas.getContext('2d');
 
-//Setting the backgounrd image in the canvas
+//Setting the background image in the canvas
 /*
 texture = new Image();
 //texture.src = 'bonus/Texture/snow1_s.jpg';
@@ -15,7 +15,7 @@ texture.onload = () => {
 	}
 }
 */
-var position=[0, 60];
+let position=[0, 60];
 
 //Setting the initial santa claus
 pereNoel = new Image();
@@ -24,7 +24,7 @@ pereNoel.onload = () => {
     context.drawImage(pereNoel, 70, 110, 70, 100, position[0], position[1], 20, 20);
 }
 
-var directions={
+let directions={
 	
 	"ArrowRight": [140,110, 1.5, 0],
 	"ArrowLeft": [0, 310, -1.5, 0],
@@ -48,42 +48,47 @@ document.onkeydown=function(e){
 
 sapain_image = new Image();
 sapain_image.src = 'ressources/tree.png';
-var drawSapin = function (s){
+let drawSapin = function (s){
 	console.log(s)
 	//sapin.draw(context);
 	pos = s.getPos();
 	context.drawImage(sapain_image, 290, 200, 60, 90, pos[0], pos[1], 25, 25);
 }
-
-var sapins=[];
-var seconds = 0;
-var counter = setInterval(function(){
+context.drawImage(sapain_image, 290, 200, 60, 90, 257, 10, 25, 25);
+/*
+let sapins=[];
+let seconds = 0;
+let counter = setInterval(function(){
 	console.log(++seconds);
   	if(seconds%10 == 0){
 		//generate sapin
 		console.log("entrou");
- 		var x=Math.floor((Math.random()*780)+1);
- 		var y=Math.floor((Math.random()*580)+1);
+ 		let x=Math.floor((Math.random()*780)+1);
+ 		let y=Math.floor((Math.random()*580)+1);
 		
- 		var n= Math.floor(Math.random());
- 		var lifetime =(n<0.7) ? 10 : 20;		
+ 		let n= Math.floor(Math.random());
+ 		let lifetime =(n<0.7) ? 10 : 20;		
 		
- 		s = new Sapin(lifetime,x, y);
-		drawSapin(s);
+		s = new Sapin(lifetime,x, y);
+		console.log(s);
+		context.drawImage(sapain_image, 290, 200, 60, 90, 257, 10, 25, 25);
+		//drawSapin(s);
 	  }
 },1000);
+*/
 
-// var counter=function incrementSeconds(seconds) {
+
+// let counter=function incrementSeconds(seconds) {
 // 	seconds += 1;
 // 	console.log(seconds);
 // 	if(seconds%10==0){
 // 		console.log("entrou");
 // 		generate sapin
-// 		var x=Math.floor((Math.random()*780)+1);
-// 		var y=Math.floor((Math.random()*580)+1);
+// 		let x=Math.floor((Math.random()*780)+1);
+// 		let y=Math.floor((Math.random()*580)+1);
 		
-// 		var n= Math.floor(Math.random());
-// 		var seconds =(n>0.7) ? 10 : 20;		
+// 		let n= Math.floor(Math.random());
+// 		let seconds =(n>0.7) ? 10 : 20;		
 		
 // 		s = new Sapin(seconds,x, y);
 // 		sapins.push(s);
@@ -99,7 +104,7 @@ var counter = setInterval(function(){
 // }
 // setInterval(counter, 1000);
 
-//var sapins=[new Sapin(10, 0, 0)];
+//let sapins=[new Sapin(10, 0, 0)];
 //drawSapins();
 
 //sapin= new Sapin(10, 10,10);
