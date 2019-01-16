@@ -25,15 +25,15 @@ let position=[0, 60];
 pereNoel = new Image();
 pereNoel.src = 'ressources/santa.png';
 pereNoel.onload = () => {
-    context.drawImage(pereNoel, 70, 110, 70, 100, position[0], position[1], 20, 20);
+    context.drawImage(pereNoel, 70, 110, 70, 100, position[0], position[1], 40, 40);
 }
 
 let directions={
 	
-	"ArrowRight": [140,110, 1.5, 0],
-	"ArrowLeft": [0, 310, -1.5, 0],
-	"ArrowUp": [0,10, 0, -1.5],
-	"ArrowDown":  [0,210, 0, 1.5]
+	"ArrowRight": [140,110, 4, 0],
+	"ArrowLeft": [0, 310, -4, 0],
+	"ArrowUp": [0,10, 0, -4],
+	"ArrowDown":  [0,210, 0, 4]
 	
 };
 
@@ -43,10 +43,10 @@ document.onkeydown=function(e){
 		return;
 	}
 	p=directions[e.key];	
-	context.clearRect(position[0],position[1], 20, 20);
+	context.clearRect(position[0],position[1], 40, 40);
 	position[0]+=p[2];
 	position[1]+=p[3];
-	context.drawImage(pereNoel, p[0], p[1], 70, 100, position[0], position[1], 20, 20);
+	context.drawImage(pereNoel, p[0], p[1], 70, 100, position[0], position[1], 40, 40);
 	
 }
 
@@ -56,7 +56,7 @@ let drawSapin = function (s){
 	s.image.src = 'ressources/tree.png';
 	s.image.onload = function(){
 		pos = s.getPos();
-		context.drawImage(s.image, 290, 200, 60, 90, pos[0], pos[1], 25, 25);
+		context.drawImage(s.image, 290, 200, 60, 90, pos[0], pos[1], 50, 50);
 	}
 }
 
@@ -69,10 +69,8 @@ let counter = setInterval(function(){
   	if(seconds%10 == 0){
 		//generate sapin
 		console.log("entrou");
-		//let x=Math.floor((Math.random()*780)+1);
-		let x=Math.floor((Math.random()*280)+1);
-		//let y=Math.floor((Math.random()*580)+1);
-		let y=Math.floor((Math.random()*130)+1);
+		let x=Math.floor((Math.random()*780)+1);
+		let y=Math.floor((Math.random()*580)+1);
 		
  		let n= Math.floor(Math.random());
  		let lifetime =(n<0.7) ? 10 : 20;		
