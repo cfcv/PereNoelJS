@@ -5,10 +5,14 @@ context = canvas.getContext('2d');
 //defining pos_pere_noel of the time in canvas
 time_posx = 200
 time_posy = 10
+nb_cadeux = 100
+vie = 100
 
 //Defining the pos_pere_noels of the decoreted and no decorated trees
 pos_tree = []
 pos_decorated_tree = [352, 290, 65, 90];
+pos_decorated_cadeux = [352, 290, 65, 90];
+pos_lutin = []
 //Setting the background image in the canvas
 /*
 texture = new Image();
@@ -50,6 +54,11 @@ checkMove = function(){
 		dist = Math.sqrt(Math.pow(centre_pere[0]-centre_sapin[0], 2) + Math.pow(centre_pere[1]-centre_sapin[1], 2))
 		//console.log(dist + " :" + i);
 		if(dist <= 50){
+			if(sapins[i].empty){
+				sapins[i].empty=false;
+				deposee = (sapins[i].lifetime == 20) ? 5 : 10;
+				nb_cadeux -= deposee;
+			}
 			let tupla = [];
 			if(centre_sapin[0] > centre_pere[0]){
 				if(centre_pere[1] < centre_sapin[1]+50 && centre_pere[1] > centre_sapin[1]-50){
@@ -114,7 +123,8 @@ let drawSapin = function (s){
 let seconds = 0;
 let counter = setInterval(function(){
 	seconds++
-	console.log(seconds);
+	//console.log(seconds);
+	//console.log(nb_cadeux);
 	//context.clearRect(time_posx,time_posy, 100, 100);
 	//context.fillText('Time: '+seconds, time_posx, time_posy);
   	if(seconds%10 == 0){
@@ -136,7 +146,7 @@ let counter = setInterval(function(){
 			}
 		}
 		sapins.push(s);
-		console.log(sapins);
+		//console.log(sapins);
 		drawSapin(s);
 	  }
 },1000);
