@@ -1,8 +1,9 @@
-function Sapin(seconds, x, y){
-	this.seconds=seconds;
+function Sapin(lifetime, x, y, time){
+	this.lifetime=lifetime;
 	this.x=x;
 	this.y=y;	
 	this.empty=true;
+	this.start=time;
 	this.image=new Image();
 }
 
