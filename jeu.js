@@ -129,7 +129,6 @@ let counter = setInterval(function(){
 	//context.fillText('Time: '+seconds, time_posx, time_posy);
   	if(seconds%10 == 0){
 		//generate sapin
-		console.log("entrou");
 		let x=Math.floor((Math.random()*780)+1);
 		let y=Math.floor((Math.random()*580)+1);
 		
@@ -140,7 +139,6 @@ let counter = setInterval(function(){
 		
 		for(i = 0; i < sapins.length; i++){
 			if(seconds >= sapins[i].start + sapins[i].lifetime){
-				console.log('suppresion: ' + sapins[i]);
 				context.clearRect(sapins[i].x,sapins[i].y, 50, 50);
 				sapins.splice(i, 1);
 			}

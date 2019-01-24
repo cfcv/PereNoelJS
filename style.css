@@ -2,3 +2,15 @@
     border: 1px solid black;
 	background-image: url('bonus/Texture/snow1_s.jpg');
 }
+
+table {
+    margin: 0px auto;
+    width: 800px;
+    height: 600px;
+    border-collapse: collapse;
+}
+  
+table, th, td {
+    text-align: center;
+    border: 1px solid black;
+}
