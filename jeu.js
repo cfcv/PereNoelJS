@@ -2,17 +2,21 @@
 var canvas = document.getElementById("MainCanvas");
 context = canvas.getContext('2d');
 
+var argent_object = document.getElementById("argent");
+var cadeaux_object = document.getElementById("cadeaux");
+var time_object = document.getElementById("time");
+
 //defining pos_pere_noel of the time in canvas
-time_posx = 200
-time_posy = 10
-nb_cadeux = 100
-vie = 100
+let time_posx = 200
+let time_posy = 10
+let cadeaux = 100
+let argent = 100
 
 //Defining the pos_pere_noels of the decoreted and no decorated trees
-pos_tree = []
-pos_decorated_tree = [352, 290, 65, 90];
-pos_decorated_cadeux = [352, 290, 65, 90];
-pos_lutin = []
+let pos_tree = []
+let pos_decorated_tree = [352, 290, 65, 90];
+let pos_decorated_cadeux = [352, 290, 65, 90];
+let pos_lutin = []
 //Setting the background image in the canvas
 /*
 texture = new Image();
@@ -57,7 +61,7 @@ checkMove = function(){
 			if(sapins[i].empty){
 				sapins[i].empty=false;
 				deposee = (sapins[i].lifetime == 20) ? 5 : 10;
-				nb_cadeux -= deposee;
+				cadeaux -= deposee;
 			}
 			let tupla = [];
 			if(centre_sapin[0] > centre_pere[0]){
@@ -123,10 +127,11 @@ let drawSapin = function (s){
 let seconds = 0;
 let counter = setInterval(function(){
 	seconds++
-	//console.log(seconds);
-	//console.log(nb_cadeux);
-	//context.clearRect(time_posx,time_posy, 100, 100);
-	//context.fillText('Time: '+seconds, time_posx, time_posy);
+	let minutes = Math.floor(seconds / 60);
+	let seconds_layout = seconds - minutes * 60;
+	time_object.innerHTML = "Temps: " + minutes + ":" + seconds_layout;
+	cadeaux_object.innerHTML = "Cadeaux: " + cadeaux;
+	argent_object.innerHTML = "Argent: " + argent;
   	if(seconds%10 == 0){
 		//generate sapin
 		let x=Math.floor((Math.random()*780)+1);
