@@ -11,6 +11,8 @@ let time_posx = 200
 let time_posy = 10
 let cadeaux = 100
 let argent = 100
+const size_lutin = [25, 25]
+const size_pere = [40, 40]
 
 //Defining the pos_pere_noels of the decoreted and no decorated trees
 let pos_tree = []
@@ -30,6 +32,13 @@ texture.onload = () => {
 	}
 }
 */
+
+// lutin = new Image();
+// lutin.src = 'ressources/lutin.png';
+// lutin.onload = () => {
+//     context.drawImage(lutin, 4, 0, 24, 32, 50, 50, 25, 25);
+// }
+
 let pos_pere_noel=[0, 60];
 
 //Setting the initial santa claus
@@ -39,16 +48,19 @@ pereNoel.onload = () => {
     context.drawImage(pereNoel, 70, 110, 70, 100, pos_pere_noel[0], pos_pere_noel[1], 40, 40);
 }
 
-let directions={
-	
+let directions_pere={
 	"ArrowRight": [140,110, 6, 0],
 	"ArrowLeft": [0, 310, -6, 0],
 	"ArrowUp": [0,10, 0, -6],
 	"ArrowDown":  [0,210, 0, 6]
-	
 };
 
-
+let directions_lutin={
+	0: [4, 64, 24, 32],	//right	[sx, sy, swidth, sheight]
+	1: [4, 32, 24, 32],	//left	[sx, sy, swidth, sheight]  
+	2: [4, 96, 24, 32],	//up	[sx, sy, swidth, sheight] 
+	3: [4, 0, 24, 32]	//down	[sx, sy, swidth, sheight] 
+}
 
 
 checkMove = function(){
@@ -95,7 +107,7 @@ let sapins=[];
 let p = null;
 document.onkeydown=function(e){
 	
-	if (directions[e.key] === undefined){
+	if (directions_pere[e.key] === undefined){
 		return;
 	}
 	let move = checkMove()
@@ -105,7 +117,7 @@ document.onkeydown=function(e){
 			return;
 		}
 	}
-	p=directions[e.key];	
+	p=directions_pere[e.key];	
 	context.clearRect(pos_pere_noel[0],pos_pere_noel[1], 40, 40);
 	pos_pere_noel[0]+=p[2];
 	pos_pere_noel[1]+=p[3];
@@ -120,6 +132,14 @@ let drawSapin = function (s){
 	s.image.onload = function(){
 		pos = s.getPos();
 		context.drawImage(s.image, 290, 200, 60, 90, pos[0], pos[1], 50, 50);
+	}
+	for(let i = 0; i < s.lutins.length; i++){
+		let lutin = s.lutins[i];
+		lutin.image.src = 'ressources/lutin.png';
+		lutin.image.onload = function(){
+			positions = directions_lutin[lutin.initial_pos];
+			context.drawImage(lutin.image, positions[0], positions[1], positions[2], positions[3], lutin.x, lutin.y, size_lutin[0], size_lutin[1]);
+		}
 	}
 }
 
@@ -148,6 +168,31 @@ let counter = setInterval(function(){
 				sapins.splice(i, 1);
 			}
 		}
+
+		//generate lutins
+		let lutins = []
+		if(lifetime == 20){
+			//generate only one lutin
+			let l_x=Math.floor((Math.random()*780)+1);
+			let l_y=Math.floor((Math.random()*580)+1);
+
+			s.lutins.push(new Lutin(l_x, l_y));
+		}
+		else{
+			//generate two lutins
+			//first lutin
+			let l_x=Math.floor((Math.random()*780)+1);
+			let l_y=Math.floor((Math.random()*580)+1);
+
+			s.lutins.push(new Lutin(l_x, l_y));
+			
+			//second lutin
+			l_x=Math.floor((Math.random()*780)+1);
+			l_y=Math.floor((Math.random()*580)+1);
+
+			s.lutins.push(new Lutin(l_x, l_y));
+		}
+
 		sapins.push(s);
 		//console.log(sapins);
 		drawSapin(s);

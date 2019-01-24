@@ -5,6 +5,7 @@ function Sapin(lifetime, x, y, time){
 	this.empty=true;
 	this.start=time;
 	this.image=new Image();
+	this.lutins=[];
 }
 
 Sapin.prototype.draw= function(){
