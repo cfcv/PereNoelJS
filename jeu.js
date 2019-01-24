@@ -154,8 +154,8 @@ let counter = setInterval(function(){
 	argent_object.innerHTML = "Argent: " + argent;
   	if(seconds%10 == 0){
 		//generate sapin
-		let x=Math.floor((Math.random()*780)+1);
-		let y=Math.floor((Math.random()*580)+1);
+		let x=Math.floor((Math.random()*760)+1);
+		let y=Math.floor((Math.random()*560)+1);
 		
 		let n= Math.random();
 		let lifetime =(n>0.7) ? 10 : 20;		
@@ -176,22 +176,22 @@ let counter = setInterval(function(){
 		let lutins = []
 		if(lifetime == 20){
 			//generate only one lutin
-			let l_x=Math.floor((Math.random()*780)+1);
-			let l_y=Math.floor((Math.random()*580)+1);
+			let l_x=Math.floor((Math.random()*760)+1);
+			let l_y=Math.floor((Math.random()*560)+1);
 
 			s.lutins.push(new Lutin(l_x, l_y));
 		}
 		else{
 			//generate two lutins
 			//first lutin
-			let l_x=Math.floor((Math.random()*780)+1);
-			let l_y=Math.floor((Math.random()*580)+1);
+			let l_x=Math.floor((Math.random()*760)+1);
+			let l_y=Math.floor((Math.random()*560)+1);
 
 			s.lutins.push(new Lutin(l_x, l_y));
 			
 			//second lutin
-			l_x=Math.floor((Math.random()*780)+1);
-			l_y=Math.floor((Math.random()*580)+1);
+			l_x=Math.floor((Math.random()*760)+1);
+			l_y=Math.floor((Math.random()*560)+1);
 
 			s.lutins.push(new Lutin(l_x, l_y));
 		}
