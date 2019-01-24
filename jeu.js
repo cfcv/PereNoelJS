@@ -157,14 +157,17 @@ let counter = setInterval(function(){
 		let x=Math.floor((Math.random()*780)+1);
 		let y=Math.floor((Math.random()*580)+1);
 		
-		let n= Math.floor(Math.random());
+		let n= Math.random();
 		let lifetime =(n>0.7) ? 10 : 20;		
 		
 		s = new Sapin(lifetime,x, y, seconds);
 		
-		for(i = 0; i < sapins.length; i++){
+		for(let i = 0; i < sapins.length; i++){
 			if(seconds >= sapins[i].start + sapins[i].lifetime){
 				context.clearRect(sapins[i].x,sapins[i].y, 50, 50);
+				for(let j = 0; j < sapins[i].lutins.length; j++){
+					context.clearRect(sapins[i].lutins[j].x, sapins[i].lutins[j].y, size_lutin[0], size_lutin[1]);
+				}
 				sapins.splice(i, 1);
 			}
 		}
