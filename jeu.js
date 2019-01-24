@@ -56,10 +56,10 @@ let directions_pere={
 };
 
 let directions_lutin={
-	0: [4, 64, 24, 32],	//right	[sx, sy, swidth, sheight]
-	1: [4, 32, 24, 32],	//left	[sx, sy, swidth, sheight]  
-	2: [4, 96, 24, 32],	//up	[sx, sy, swidth, sheight] 
-	3: [4, 0, 24, 32]	//down	[sx, sy, swidth, sheight] 
+	0: [4, 64, 24, 32, 10, 0],	//right	[sx, sy, swidth, sheight, velocityX, velocityY]
+	1: [4, 32, 24, 32, -10, 0],	//left	[sx, sy, swidth, sheight, vx, vy]  
+	2: [4, 96, 24, 32, 0, -10],	//up	[sx, sy, swidth, sheight, vx, vy] 
+	3: [4, 0, 24, 32, 0, 10]		//down	[sx, sy, swidth, sheight, vx, vy] 
 }
 
 
@@ -144,6 +144,21 @@ let drawSapin = function (s){
 }
 
 
+moveLutins = function() {
+	for(let i = 0; i < sapins.length; i++){
+		for(let j = 0; j < sapins[i].lutins.length; j++){
+			let r = Math.floor((Math.random()*20)+1);
+			r = r%4;
+			let direct = directions_lutin[r];
+			context.clearRect(sapins[i].lutins[j].x, sapins[i].lutins[j].y, size_lutin[0], size_lutin[1]);
+			sapins[i].lutins[j].x += direct[4];
+			sapins[i].lutins[j].y += direct[5];
+			context.drawImage(sapins[i].lutins[j].image, direct[0], direct[1], direct[2], direct[3], sapins[i].lutins[j].x, sapins[i].lutins[j].y, size_lutin[0], size_lutin[1]);
+			 
+		}
+	}
+}
+
 let seconds = 0;
 let counter = setInterval(function(){
 	seconds++
@@ -152,6 +167,8 @@ let counter = setInterval(function(){
 	time_object.innerHTML = "Temps: " + minutes + ":" + seconds_layout;
 	cadeaux_object.innerHTML = "Cadeaux: " + cadeaux;
 	argent_object.innerHTML = "Argent: " + argent;
+
+	moveLutins()
   	if(seconds%10 == 0){
 		//generate sapin
 		let x=Math.floor((Math.random()*760)+1);
@@ -199,5 +216,5 @@ let counter = setInterval(function(){
 		sapins.push(s);
 		//console.log(sapins);
 		drawSapin(s);
-	  }
+	}
 },1000);
