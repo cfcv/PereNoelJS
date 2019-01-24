@@ -15,10 +15,9 @@ const size_lutin = [25, 25]
 const size_pere = [40, 40]
 
 //Defining the pos_pere_noels of the decoreted and no decorated trees
-let pos_tree = []
 let pos_decorated_tree = [352, 290, 65, 90];
 let pos_decorated_cadeux = [352, 290, 65, 90];
-let pos_lutin = []
+
 //Setting the background image in the canvas
 /*
 texture = new Image();
@@ -56,10 +55,10 @@ let directions_pere={
 };
 
 let directions_lutin={
-	0: [4, 64, 24, 32, 10, 0],	//right	[sx, sy, swidth, sheight, velocityX, velocityY]
-	1: [4, 32, 24, 32, -10, 0],	//left	[sx, sy, swidth, sheight, vx, vy]  
-	2: [4, 96, 24, 32, 0, -10],	//up	[sx, sy, swidth, sheight, vx, vy] 
-	3: [4, 0, 24, 32, 0, 10]		//down	[sx, sy, swidth, sheight, vx, vy] 
+	0: [4, 64, 24, 32, 6, 0],	//right	[sx, sy, swidth, sheight, velocityX, velocityY]
+	1: [4, 32, 24, 32, -6, 0],	//left	[sx, sy, swidth, sheight, vx, vy]  
+	2: [4, 96, 24, 32, 0, -6],	//up	[sx, sy, swidth, sheight, vx, vy] 
+	3: [4, 0, 24, 32, 0, 6]		//down	[sx, sy, swidth, sheight, vx, vy] 
 }
 
 
@@ -67,7 +66,7 @@ checkMove = function(){
 	for(var i =0; i < sapins.length; i++){
 		let centre_pere = [pos_pere_noel[0]+20, pos_pere_noel[1]+20];
 		let centre_sapin = [sapins[i].x + 25, sapins[i].y+25];
-		dist = Math.sqrt(Math.pow(centre_pere[0]-centre_sapin[0], 2) + Math.pow(centre_pere[1]-centre_sapin[1], 2))
+		dist = Math.sqrt(Math.pow(centre_pere[0]-centre_sapin[0], 2) + Math.pow(centre_pere[1]-centre_sapin[1], 2));
 		//console.log(dist + " :" + i);
 		if(dist <= 50){
 			if(sapins[i].empty){
@@ -144,7 +143,8 @@ let drawSapin = function (s){
 }
 
 
-moveLutins = function() {
+moveLutins = setInterval(function() {
+	let centre_pere = [pos_pere_noel[0]+20, pos_pere_noel[1]+20];
 	for(let i = 0; i < sapins.length; i++){
 		for(let j = 0; j < sapins[i].lutins.length; j++){
 			let r = Math.floor((Math.random()*20)+1);
@@ -154,21 +154,29 @@ moveLutins = function() {
 			sapins[i].lutins[j].x += direct[4];
 			sapins[i].lutins[j].y += direct[5];
 			context.drawImage(sapins[i].lutins[j].image, direct[0], direct[1], direct[2], direct[3], sapins[i].lutins[j].x, sapins[i].lutins[j].y, size_lutin[0], size_lutin[1]);
+			let centre_lutin = [sapins[i].lutins[j].x + 25, sapins[i].lutins[j].y+25];
+			dist = Math.sqrt(Math.pow(centre_pere[0]-centre_lutin[0], 2) + Math.pow(centre_pere[1]-centre_lutin[1], 2));
+			if(dist <= 50){
+				argent -= 5;
+			}
 			 
 		}
 	}
-}
+}, 700);
 
-let seconds = 0;
-let counter = setInterval(function(){
-	seconds++
+showTime = setInterval(function(){
 	let minutes = Math.floor(seconds / 60);
 	let seconds_layout = seconds - minutes * 60;
 	time_object.innerHTML = "Temps: " + minutes + ":" + seconds_layout;
 	cadeaux_object.innerHTML = "Cadeaux: " + cadeaux;
 	argent_object.innerHTML = "Argent: " + argent;
+}, 100);
 
-	moveLutins()
+let seconds = 0;
+let counter = setInterval(function(){
+	seconds++
+
+	//moveLutins()
   	if(seconds%10 == 0){
 		//generate sapin
 		let x=Math.floor((Math.random()*760)+1);
