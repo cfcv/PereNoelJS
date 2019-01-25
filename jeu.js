@@ -14,7 +14,7 @@ let argent = 100
 let callBack_lutins = 500;
 const size_lutin = [40, 40]
 const size_pere = [40, 40]
-const size_boule = [20, 20]
+const size_boule = [30, 30]
 const size_sapin = [50, 50]
 
 //Defining the pos_pere_noels of the decoreted and no decorated trees
@@ -77,7 +77,7 @@ checkMove = function(){
 		let centre_boule = [boule.x+10, boule.y+10];
 		dist_boule = Math.sqrt(Math.pow(centre_pere[0]-centre_boule[0], 2) + Math.pow(centre_pere[1]-centre_boule[1], 2));
 		//console.log(dist_boule);
-		if(dist_boule <= 35){
+		if(dist_boule <= 40){
 			BOULE_CATCHED = true;
 			context.clearRect(boule.x, boule.y, size_boule[0], size_boule[1]);
 			boule = null;
@@ -185,7 +185,7 @@ let drawSapin = function (s){
 		lutin.image.src = 'ressources/lutin1.png';
 		lutin.image.onload = function(){
 			positions = directions_lutin[lutin.initial_pos];
-			context.drawImage(lutin.image, positions[0], positions[1], positions[2], positions[3], lutin.x, lutin.y, size_lutin[0], size_lutin[1]);
+			context.drawImage(lutin.image, lutin.x, lutin.y, size_lutin[0], size_lutin[1]);
 		}
 	}
 }
@@ -292,7 +292,7 @@ let counter = setInterval(function(){
 		boule = new Boule(x, y, seconds);
 		boule.image.src = "ressources/ball.png";
 		boule.image.onload = function(){
-			context.drawImage(boule.image, x, y, size_boule[0], size_boule[1]);
+			context.drawImage(boule.image, 45, 50, 160, 160, x, y, size_boule[0], size_boule[1]);
 		}
 	}	
   	if(seconds%10 == 0){
