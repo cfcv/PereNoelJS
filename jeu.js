@@ -203,7 +203,14 @@ lutinsExteriques = function(){
 				context.clearRect(sapins[i].lutins[j].x, sapins[i].lutins[j].y, size_lutin[0], size_lutin[1]);
 				sapins[i].lutins[j].x += direct[4];
 				sapins[i].lutins[j].y += direct[5];
-				context.drawImage(sapins[i].lutins[j].image, direct[0], direct[1], direct[2], direct[3], sapins[i].lutins[j].x, sapins[i].lutins[j].y, size_lutin[0], size_lutin[1]);
+				let r_string=(r+1).toString();
+				sapins[i].lutins[j].image.src='ressources/lutin'+r_string+'.png';
+				sapins[i].lutins[j].image.onload=function(){
+					context.drawImage(sapins[i].lutins[j].image, sapins[i].lutins[j].x, sapins[i].lutins[j].y,
+							size_lutin[0], size_lutin[1]);
+				}
+				
+				
 				let centre_lutin = [sapins[i].lutins[j].x + 25, sapins[i].lutins[j].y+25];
 				dist = Math.sqrt(Math.pow(centre_pere[0]-centre_lutin[0], 2) + Math.pow(centre_pere[1]-centre_lutin[1], 2));
 				if(dist <= 50){
@@ -253,6 +260,35 @@ clearGame = function(){
 	seconds = 0;
 	cadeaux = 100
 	argent = 100
+	clearInterval(moveLutins);
+	callBack_lutins *= 10;
+	moveLutins = setInterval(function() {
+		let centre_pere = [pos_pere_noel[0]+20, pos_pere_noel[1]+20];
+		for(let i = 0; i < sapins.length; i++){
+			for(let j = 0; j < sapins[i].lutins.length; j++){
+				let r = Math.floor((Math.random()*20)+1);
+				r = r%4;
+				let direct = directions_lutin[r];
+				context.clearRect(sapins[i].lutins[j].x, sapins[i].lutins[j].y, size_lutin[0], size_lutin[1]);
+				sapins[i].lutins[j].x += direct[4];
+				sapins[i].lutins[j].y += direct[5];
+				let r_string=(r+1).toString();
+				sapins[i].lutins[j].image.src='ressources/lutin'+r_string+'.png';
+				sapins[i].lutins[j].image.onload=function(){
+					context.drawImage(sapins[i].lutins[j].image, sapins[i].lutins[j].x, sapins[i].lutins[j].y,
+							size_lutin[0], size_lutin[1]);
+				}
+				
+				
+				let centre_lutin = [sapins[i].lutins[j].x + 25, sapins[i].lutins[j].y+25];
+				dist = Math.sqrt(Math.pow(centre_pere[0]-centre_lutin[0], 2) + Math.pow(centre_pere[1]-centre_lutin[1], 2));
+				if(dist <= 50){
+					argent -= 5;
+				}
+					
+			}
+		}
+	}, callBack_lutins);
 }
 
 
