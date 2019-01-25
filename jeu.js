@@ -13,6 +13,8 @@ let cadeaux = 100
 let argent = 100
 const size_lutin = [25, 25]
 const size_pere = [40, 40]
+const size_boule = [20, 20]
+
 
 //Defining the pos_pere_noels of the decoreted and no decorated trees
 let pos_decorated_tree = [352, 290, 65, 90];
@@ -39,6 +41,10 @@ texture.onload = () => {
 // }
 
 let pos_pere_noel=[0, 60];
+let boule = null;
+let BOULE_CATCHED = false;
+let stop_lutins_time = 15;
+let count_lutins_stop_time = 0;
 
 //Setting the initial santa claus
 pereNoel = new Image();
@@ -55,16 +61,27 @@ let directions_pere={
 };
 
 let directions_lutin={
-	0: [4, 64, 24, 32, 6, 0],	//right	[sx, sy, swidth, sheight, velocityX, velocityY]
-	1: [4, 32, 24, 32, -6, 0],	//left	[sx, sy, swidth, sheight, vx, vy]  
-	2: [4, 96, 24, 32, 0, -6],	//up	[sx, sy, swidth, sheight, vx, vy] 
-	3: [4, 0, 24, 32, 0, 6]		//down	[sx, sy, swidth, sheight, vx, vy] 
+	0: [4, 64, 24, 32, 10, 0],	//right	[sx, sy, swidth, sheight, velocityX, velocityY]
+	1: [4, 32, 24, 32, -10, 0],	//left	[sx, sy, swidth, sheight, vx, vy]  
+	2: [4, 96, 24, 32, 0, -10],	//up	[sx, sy, swidth, sheight, vx, vy] 
+	3: [4, 0, 24, 32, 0, 10]		//down	[sx, sy, swidth, sheight, vx, vy] 
 }
 
 
 checkMove = function(){
+	let centre_pere = [pos_pere_noel[0]+20, pos_pere_noel[1]+20];
+	if(boule != null){
+		let centre_boule = [boule.x+10, boule.y+10];
+		dist_boule = Math.sqrt(Math.pow(centre_pere[0]-centre_boule[0], 2) + Math.pow(centre_pere[1]-centre_boule[1], 2));
+		//console.log(dist_boule);
+		if(dist_boule <= 35){
+			BOULE_CATCHED = true;
+			context.clearRect(boule.x, boule.y, size_boule[0], size_boule[1]);
+			boule = null;
+			count_lutins_stop_time = 0;
+		}
+	}
 	for(var i =0; i < sapins.length; i++){
-		let centre_pere = [pos_pere_noel[0]+20, pos_pere_noel[1]+20];
 		let centre_sapin = [sapins[i].x + 25, sapins[i].y+25];
 		dist = Math.sqrt(Math.pow(centre_pere[0]-centre_sapin[0], 2) + Math.pow(centre_pere[1]-centre_sapin[1], 2));
 		//console.log(dist + " :" + i);
@@ -109,6 +126,7 @@ document.onkeydown=function(e){
 	if (directions_pere[e.key] === undefined){
 		return;
 	}
+
 	let move = checkMove()
 	//console.log(move);
 	if(!move[0]){
@@ -144,25 +162,27 @@ let drawSapin = function (s){
 
 
 moveLutins = setInterval(function() {
-	let centre_pere = [pos_pere_noel[0]+20, pos_pere_noel[1]+20];
-	for(let i = 0; i < sapins.length; i++){
-		for(let j = 0; j < sapins[i].lutins.length; j++){
-			let r = Math.floor((Math.random()*20)+1);
-			r = r%4;
-			let direct = directions_lutin[r];
-			context.clearRect(sapins[i].lutins[j].x, sapins[i].lutins[j].y, size_lutin[0], size_lutin[1]);
-			sapins[i].lutins[j].x += direct[4];
-			sapins[i].lutins[j].y += direct[5];
-			context.drawImage(sapins[i].lutins[j].image, direct[0], direct[1], direct[2], direct[3], sapins[i].lutins[j].x, sapins[i].lutins[j].y, size_lutin[0], size_lutin[1]);
-			let centre_lutin = [sapins[i].lutins[j].x + 25, sapins[i].lutins[j].y+25];
-			dist = Math.sqrt(Math.pow(centre_pere[0]-centre_lutin[0], 2) + Math.pow(centre_pere[1]-centre_lutin[1], 2));
-			if(dist <= 50){
-				argent -= 5;
+	if(!BOULE_CATCHED){
+		let centre_pere = [pos_pere_noel[0]+20, pos_pere_noel[1]+20];
+		for(let i = 0; i < sapins.length; i++){
+			for(let j = 0; j < sapins[i].lutins.length; j++){
+				let r = Math.floor((Math.random()*20)+1);
+				r = r%4;
+				let direct = directions_lutin[r];
+				context.clearRect(sapins[i].lutins[j].x, sapins[i].lutins[j].y, size_lutin[0], size_lutin[1]);
+				sapins[i].lutins[j].x += direct[4];
+				sapins[i].lutins[j].y += direct[5];
+				context.drawImage(sapins[i].lutins[j].image, direct[0], direct[1], direct[2], direct[3], sapins[i].lutins[j].x, sapins[i].lutins[j].y, size_lutin[0], size_lutin[1]);
+				let centre_lutin = [sapins[i].lutins[j].x + 25, sapins[i].lutins[j].y+25];
+				dist = Math.sqrt(Math.pow(centre_pere[0]-centre_lutin[0], 2) + Math.pow(centre_pere[1]-centre_lutin[1], 2));
+				if(dist <= 50){
+					argent -= 5;
+				}
+				 
 			}
-			 
 		}
 	}
-}, 700);
+}, 500);
 
 showTime = setInterval(function(){
 	let minutes = Math.floor(seconds / 60);
@@ -170,13 +190,35 @@ showTime = setInterval(function(){
 	time_object.innerHTML = "Temps: " + minutes + ":" + seconds_layout;
 	cadeaux_object.innerHTML = "Cadeaux: " + cadeaux;
 	argent_object.innerHTML = "Argent: " + argent;
+
+	// if(seconds >= 210 || argent <= 0){
+	// 	alert('You lose')
+	// 	//clearGame()
+	// }
+	// else if(cadeaux <= 0){
+	// 	alert('You won')
+	// }
 }, 100);
 
 let seconds = 0;
 let counter = setInterval(function(){
 	seconds++
 
-	//moveLutins()
+	if(BOULE_CATCHED){
+		count_lutins_stop_time += 1;
+		if(count_lutins_stop_time >= stop_lutins_time){
+			BOULE_CATCHED = false;
+		}
+	}
+	if(seconds == 10 || seconds == 150){
+		let x=Math.floor((Math.random()*760)+1);
+		let y=Math.floor((Math.random()*560)+1);
+		boule = new Boule(x, y, seconds);
+		boule.image.src = "ressources/boule.jpeg";
+		boule.image.onload = function(){
+			context.drawImage(boule.image, x, y, size_boule[0], size_boule[1]);
+		}
+	}	
   	if(seconds%10 == 0){
 		//generate sapin
 		let x=Math.floor((Math.random()*760)+1);
@@ -197,8 +239,11 @@ let counter = setInterval(function(){
 			}
 		}
 
+		if(boule != null && (seconds - boule.start) >= boule.lifetime){
+			context.clearRect(boule.x, boule.y, size_boule[0], size_boule[1]);
+			boule = null;
+		}
 		//generate lutins
-		let lutins = []
 		if(lifetime == 20){
 			//generate only one lutin
 			let l_x=Math.floor((Math.random()*760)+1);
@@ -222,7 +267,6 @@ let counter = setInterval(function(){
 		}
 
 		sapins.push(s);
-		//console.log(sapins);
 		drawSapin(s);
 	}
 },1000);
