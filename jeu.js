@@ -12,14 +12,16 @@ let time_posy = 10
 let cadeaux = 100
 let argent = 100
 let callBack_lutins = 500;
-const size_lutin = [25, 25]
+const size_lutin = [40, 40]
 const size_pere = [40, 40]
 const size_boule = [20, 20]
 const size_sapin = [50, 50]
 
 //Defining the pos_pere_noels of the decoreted and no decorated trees
-let pos_decorated_tree = [352, 290, 65, 90];
-let pos_decorated_cadeux = [352, 290, 65, 90];
+let pos_undecorated_tree = [0, 0, 120, 200];
+let pos_undecorated_cadeux = [0, 0, 120, 210];
+let pos_decorated_tree = [290, 200, 60, 85];
+let pos_decorated_cadeux = [290, 290, 60, 85];
 
 //Setting the background image in the canvas
 /*
@@ -89,7 +91,25 @@ checkMove = function(){
 		if(dist <= 50){
 			if(sapins[i].empty){
 				sapins[i].empty=false;
-				deposee = (sapins[i].lifetime == 20) ? 5 : 10;
+				context.clearRect(sapins[i].x, sapins[i].y, size_sapin[0], size_sapin[1]);
+				if(sapins[i].lifetime==20){
+					deposee = 5;
+					sapins[i].image.src='ressources/regali.png'
+					sapins[i].image.onload= function(){
+						context.drawImage(sapins[i].image, pos_undecorated_cadeux[0], pos_undecorated_cadeux[1],
+							 pos_undecorated_cadeux[2],	 pos_undecorated_cadeux[3], sapins[i].x, sapins[i].y, 
+							 size_sapin[0], size_sapin[1]);	
+					} 
+				}
+				else{
+					deposee = 10;
+					sapins[i].image.src='ressources/tree.png'
+					sapins[i].image.onload= function(){
+						context.drawImage(sapins[i].image, pos_decorated_cadeux[0], pos_decorated_cadeux[1],
+							pos_decorated_cadeux[2],	 pos_decorated_cadeux[3], sapins[i].x, sapins[i].y, 
+							 size_sapin[0], size_sapin[1]);	
+					} 
+				}
 				cadeaux -= deposee;
 			}
 			let tupla = [];
@@ -146,14 +166,23 @@ document.onkeydown=function(e){
 let drawSapin = function (s){
 	console.log(s)
 	//sapin.draw(context);
-	s.image.src = 'ressources/tree.png';
+	if(s.lifetime==10){
+		s.image.src = 'ressources/tree.png';
+	}
+	else{
+		s.image.src = 'ressources/tagliata.png';	
+	}
 	s.image.onload = function(){
 		pos = s.getPos();
-		context.drawImage(s.image, 290, 200, 60, 90, pos[0], pos[1], 50, 50);
+		if(s.lifetime==10){
+			context.drawImage(s.image, 290, 200, 60, 85, pos[0], pos[1], 50, 50);
+		}else{
+			context.drawImage(s.image, 0, 0, 120, 200, pos[0], pos[1], 50, 50);
+		}
 	}
 	for(let i = 0; i < s.lutins.length; i++){
 		let lutin = s.lutins[i];
-		lutin.image.src = 'ressources/lutin.png';
+		lutin.image.src = 'ressources/lutin1.png';
 		lutin.image.onload = function(){
 			positions = directions_lutin[lutin.initial_pos];
 			context.drawImage(lutin.image, positions[0], positions[1], positions[2], positions[3], lutin.x, lutin.y, size_lutin[0], size_lutin[1]);
@@ -197,7 +226,14 @@ moveLutins = setInterval(function() {
 				context.clearRect(sapins[i].lutins[j].x, sapins[i].lutins[j].y, size_lutin[0], size_lutin[1]);
 				sapins[i].lutins[j].x += direct[4];
 				sapins[i].lutins[j].y += direct[5];
-				context.drawImage(sapins[i].lutins[j].image, direct[0], direct[1], direct[2], direct[3], sapins[i].lutins[j].x, sapins[i].lutins[j].y, size_lutin[0], size_lutin[1]);
+				let r_string=(r+1).toString();
+				sapins[i].lutins[j].image.src='ressources/lutin'+r_string+'.png';
+				sapins[i].lutins[j].image.onload=function(){
+					context.drawImage(sapins[i].lutins[j].image, sapins[i].lutins[j].x, sapins[i].lutins[j].y,
+						 size_lutin[0], size_lutin[1]);
+				}
+				
+				
 				let centre_lutin = [sapins[i].lutins[j].x + 25, sapins[i].lutins[j].y+25];
 				dist = Math.sqrt(Math.pow(centre_pere[0]-centre_lutin[0], 2) + Math.pow(centre_pere[1]-centre_lutin[1], 2));
 				if(dist <= 50){
@@ -254,7 +290,7 @@ let counter = setInterval(function(){
 		let x=Math.floor((Math.random()*760)+1);
 		let y=Math.floor((Math.random()*560)+1);
 		boule = new Boule(x, y, seconds);
-		boule.image.src = "ressources/boule.jpeg";
+		boule.image.src = "ressources/ball.png";
 		boule.image.onload = function(){
 			context.drawImage(boule.image, x, y, size_boule[0], size_boule[1]);
 		}
