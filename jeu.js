@@ -11,6 +11,7 @@ let time_posx = 200
 let time_posy = 10
 let cadeaux = 100
 let argent = 100
+let callBack_lutins = 500;
 const size_lutin = [25, 25]
 const size_pere = [40, 40]
 const size_boule = [20, 20]
@@ -160,6 +161,30 @@ let drawSapin = function (s){
 	}
 }
 
+lutinsExteriques = function(){
+	clearInterval(moveLutins);
+	callBack_lutins /= 10;
+	moveLutins = setInterval(function() {
+		let centre_pere = [pos_pere_noel[0]+20, pos_pere_noel[1]+20];
+		for(let i = 0; i < sapins.length; i++){
+			for(let j = 0; j < sapins[i].lutins.length; j++){
+				let r = Math.floor((Math.random()*20)+1);
+				r = r%4;
+				let direct = directions_lutin[r];
+				context.clearRect(sapins[i].lutins[j].x, sapins[i].lutins[j].y, size_lutin[0], size_lutin[1]);
+				sapins[i].lutins[j].x += direct[4];
+				sapins[i].lutins[j].y += direct[5];
+				context.drawImage(sapins[i].lutins[j].image, direct[0], direct[1], direct[2], direct[3], sapins[i].lutins[j].x, sapins[i].lutins[j].y, size_lutin[0], size_lutin[1]);
+				let centre_lutin = [sapins[i].lutins[j].x + 25, sapins[i].lutins[j].y+25];
+				dist = Math.sqrt(Math.pow(centre_pere[0]-centre_lutin[0], 2) + Math.pow(centre_pere[1]-centre_lutin[1], 2));
+				if(dist <= 50){
+					argent -= 5;
+				}
+					
+			}
+		}
+	}, callBack_lutins);
+}
 
 moveLutins = setInterval(function() {
 	if(!BOULE_CATCHED){
@@ -182,12 +207,11 @@ moveLutins = setInterval(function() {
 			}
 		}
 	}
-}, 500);
+}, callBack_lutins);
 
 clearGame = function(){
 	context.clearRect(0, 0, 800, 600);
 	sapins = [];
-	//context.clearRect(pos_pere_noel[0], pos_pere_noel[1], size_pere[0], size_pere[1]);
 	pos_pere_noel=[0, 60];
 	context.drawImage(pereNoel, 70, 110, 70, 100, pos_pere_noel[0], pos_pere_noel[1], 40, 40);
 	seconds = 0;
@@ -222,6 +246,9 @@ let counter = setInterval(function(){
 		if(count_lutins_stop_time >= stop_lutins_time){
 			BOULE_CATCHED = false;
 		}
+	}
+	if(seconds == 190){
+		lutinsExteriques();
 	}
 	if(seconds == 70 || seconds == 150){
 		let x=Math.floor((Math.random()*760)+1);
