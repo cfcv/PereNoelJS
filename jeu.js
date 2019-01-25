@@ -14,7 +14,7 @@ let argent = 100
 const size_lutin = [25, 25]
 const size_pere = [40, 40]
 const size_boule = [20, 20]
-
+const size_sapin = [50, 50]
 
 //Defining the pos_pere_noels of the decoreted and no decorated trees
 let pos_decorated_tree = [352, 290, 65, 90];
@@ -184,6 +184,18 @@ moveLutins = setInterval(function() {
 	}
 }, 500);
 
+clearGame = function(){
+	context.clearRect(0, 0, 800, 600);
+	sapins = [];
+	//context.clearRect(pos_pere_noel[0], pos_pere_noel[1], size_pere[0], size_pere[1]);
+	pos_pere_noel=[0, 60];
+	context.drawImage(pereNoel, 70, 110, 70, 100, pos_pere_noel[0], pos_pere_noel[1], 40, 40);
+	seconds = 0;
+	cadeaux = 100
+	argent = 100
+}
+
+
 showTime = setInterval(function(){
 	let minutes = Math.floor(seconds / 60);
 	let seconds_layout = seconds - minutes * 60;
@@ -191,13 +203,14 @@ showTime = setInterval(function(){
 	cadeaux_object.innerHTML = "Cadeaux: " + cadeaux;
 	argent_object.innerHTML = "Argent: " + argent;
 
-	// if(seconds >= 210 || argent <= 0){
-	// 	alert('You lose')
-	// 	//clearGame()
-	// }
-	// else if(cadeaux <= 0){
-	// 	alert('You won')
-	// }
+	if(seconds >= 210 || argent <= 0){
+		alert('You lose with '+ cadeaux + ' gifts remaining');
+		clearGame();
+	}
+	else if(cadeaux <= 0){
+		alert('You won with '+ argent + ' euros');
+		clearGame();
+	}
 }, 100);
 
 let seconds = 0;
@@ -210,7 +223,7 @@ let counter = setInterval(function(){
 			BOULE_CATCHED = false;
 		}
 	}
-	if(seconds == 10 || seconds == 150){
+	if(seconds == 70 || seconds == 150){
 		let x=Math.floor((Math.random()*760)+1);
 		let y=Math.floor((Math.random()*560)+1);
 		boule = new Boule(x, y, seconds);
